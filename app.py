@@ -146,5 +146,9 @@ def delete_creation(uid):
     return redirect(url_for('show_creations'))
 
 
+# Vercel handler
+def handler(request):
+    return app(request.environ, lambda *args: None)
+
 if __name__ == "__main__":
     app.run(debug=True)
