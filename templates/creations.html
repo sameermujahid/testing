@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-6">
+  <h2 class="text-2xl font-semibold mb-4">My Creations</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for c in creations %}
+      <div class="bg-white/5 rounded-xl overflow-hidden shadow hover:scale-105 transition-transform">
+        <div class="h-44 bg-center bg-cover" style="background-image: url('{{ c.thumb }}')"></div>
+        <div class="p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-semibold text-lg">Theme: {{ c.theme|capitalize }}</div>
+              <div class="text-xs text-white/60 mt-1">Created: {{ c.date }}</div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <a href="{{ c.url }}" target="_blank" class="px-3 py-1 rounded bg-green-500 text-black text-sm">View</a>
+              <a href="{{ c.qr }}" target="_blank" class="px-3 py-1 rounded bg-sky-400 text-black text-sm">QR</a>
+            </div>
+          </div>
+
+          <form action="{{ url_for('delete_creation', uid=c.id) }}" method="post" class="mt-3">
+            <button type="submit" class="text-xs text-red-400 underline">Delete</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <div class="col-span-full text-center text-white/60 p-8 rounded bg-white/5">You have no creations yet. Create one now!</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mt-6">
+  <div class="bg-white/5 rounded-2xl p-6 text-center">
+    <h2 class="text-2xl font-semibold mb-2">Slideshow ready!</h2>
+    <p class="mb-4 text-white/70">Share the link or scan the QR code below.</p>
+    
+    <div class="mb-4 p-3 bg-amber-400/10 border border-amber-400/20 rounded-md">
+      <p class="text-amber-200 text-sm">🎬 Your slideshow is ready! Click the button below to view it.</p>
+    </div>
+
+    <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+      <div class="bg-black/60 rounded-md p-4">
+        <img src="{{ creation.qr }}" alt="QR code" class="w-44 h-44 object-contain"/>
+      </div>
+
+      <div class="text-left">
+        <label class="text-xs text-white/60">Share link</label>
+        <div class="mt-2 flex gap-2">
+          <input id="shareLink" class="bg-transparent p-2 rounded w-full border border-white/5" value="{{ creation.url }}" readonly />
+          <button id="copyBtn" class="bg-sky-500 text-black px-3 py-2 rounded-md">Copy</button>
+        </div>
+        <div class="mt-3 text-xs text-white/60">Theme: {{ creation.theme }} • Created: {{ creation.date }}</div>
+        <div class="mt-3 flex gap-2">
+          <a href="{{ creation.url }}" target="_blank" class="inline-block bg-amber-400 text-black px-4 py-2 rounded-md hover:bg-amber-300 font-semibold">🎬 View Slideshow</a>
+          <a href="{{ url_for('show_creations') }}" class="inline-block bg-white/5 px-4 py-2 rounded-md hover:bg-white/10">My Creations</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('copyBtn').addEventListener('click', ()=>{
+    navigator.clipboard.writeText(document.getElementById('shareLink').value).then(()=> alert('Link copied'));
+  });
+  
+  // Auto-redirect to slideshow after 3 seconds (optional)
+  let autoRedirect = false;
+  setTimeout(() => {
+    if (autoRedirect) {
+      window.open("{{ creation.url }}", '_blank');
+    }
+  }, 3000);
+  
+  // Add auto-redirect toggle
+  const autoRedirectDiv = document.createElement('div');
+  autoRedirectDiv.className = 'mt-3 text-xs text-white/60';
+  autoRedirectDiv.innerHTML = `
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input type="checkbox" id="autoRedirect" onchange="autoRedirect = this.checked">
+      <span>Auto-open slideshow in 3 seconds</span>
+    </label>
+  `;
+  document.querySelector('.mt-3.flex.gap-2').parentNode.appendChild(autoRedirectDiv);
+</script>
+{% endblock %}

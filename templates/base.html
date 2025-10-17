@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Slideshow Studio</title>
+
+  <!-- Tailwind CDN (quick) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Optional: include heroicons for icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-800 text-slate-100 min-h-screen">
+
+  <nav class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-white/10 rounded-md flex items-center justify-center font-bold">SS</div>
+      <div>
+        <a href="{{ url_for('upload_page') }}" class="font-semibold text-lg">Slideshow Studio</a>
+        <div class="text-xs text-white/60">Create & share beautiful slideshows</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <a href="{{ url_for('upload_page') }}" class="hidden md:inline-block px-3 py-2 rounded-md hover:bg-white/5">Create</a>
+      <a href="{{ url_for('show_creations') }}" class="px-3 py-2 rounded-md hover:bg-white/5">My Creations</a>
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-4 pb-12">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="space-y-2 my-4">
+          {% for category, msg in messages %}
+            <div class="p-3 rounded-md {% if category == 'danger' %}bg-red-700{% elif category == 'warning' %}bg-yellow-600 text-black{% else %}bg-green-700{% endif %}">
+              {{ msg }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="text-center text-white/60 py-6">
+    Built with ❤️ — Slideshow Studio
+  </footer>
+
+  <script>
+    if (typeof feather !== 'undefined') feather.replace();
+  </script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
