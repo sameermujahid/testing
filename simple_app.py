@@ -4,12 +4,12 @@ import qrcode
 import json
 import base64
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET", "change-me")
 
-# Simple in-memory storage for Vercel
+# Simple in-memory storage for demo
 creations_db = {}
 
 ALLOWED_IMAGE = {'.png', '.jpg', '.jpeg', '.gif', '.webp'}
